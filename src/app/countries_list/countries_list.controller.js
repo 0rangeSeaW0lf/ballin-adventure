@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('ccapp')
-  .controller('CountryListCtrl', ['$scope', 'CountryCodes', function ($scope, CountryCodes) {
+  .controller('CountryListCtrl', ['$scope', 'countryInfo', function ($scope, countryInfo) {
       $scope.loading = true;
-      CountryCodes();
+      countryInfo.getInformation().then(function(data){
+        $scope.countries = data.geonames;
+      });
   }]);

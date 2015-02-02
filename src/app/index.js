@@ -24,7 +24,7 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
 
     $urlRouterProvider.otherwise('/');
   })
-  .factory('CountryInfoRequest', ['$http', '$q', 'COUNTRY_CAPITAL_PREFIX', 'COUNTRY_CAPITAL_SUFFIX',
+  .factory('countryInfoRequest', ['$http', '$q', 'COUNTRY_CAPITAL_PREFIX', 'COUNTRY_CAPITAL_SUFFIX',
     function($http, $q, COUNTRY_CAPITAL_PREFIX,  COUNTRY_CAPITAL_SUFFIX){
       return function(path){
         var defer = $q.defer();
@@ -36,8 +36,13 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
       };
     }
   ])
-  .factory('CountryCodes',['CountryInfoRequest', 'COUNTRY_CAPITAL_CODES', function(CountryInfoRequest, COUNTRY_CAPITAL_CODES){
-      return CountryInfoRequest(COUNTRY_CAPITAL_CODES).then(function(countryData){
-        return countryData;
-      });
-  }]);
+  .factory('countryInfo',['countryInfoRequest', 'COUNTRY_CAPITAL_CODES',
+    function(countryInfoRequest, COUNTRY_CAPITAL_CODES){
+      return {
+        getInformation: function() {
+          return countryInfoRequest(COUNTRY_CAPITAL_CODES);
+        }
+      };
+    }
+  ]);
+
