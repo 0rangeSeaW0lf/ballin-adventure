@@ -1,0 +1,35 @@
+=vertical-align
+  position: relative
+  top: 50%
+  -webkit-transform: translateY(-50%)
+  -ms-transform: translateY(-50%)
+  transform: translateY(-50%)
+
+.ghost-btn
+    display: inline-block
+    width: 200px
+    padding: 8px
+    color: #fff
+    border: 2px solid #fff
+    border-radius: 5px
+    text-align: center
+    outline: none
+    text-decoration: none
+    transition: background-color 0.2s ease-out, color 0.2s ease-out
+    &:hover, &:active
+        background-color: #fff
+        color: #000
+        transition: background-color 0.3s ease-in, color 0.3s ease-in
+
+.hero
+    background: url("../assets/images/sunset.jpg") center no-repeat no-repeat
+    height: 100vh
+    color: white
+    margin-top: -88px
+    h1
+        font-size: 6em
+    h3
+        font-size: 3em
+
+.child
+    @include vertical-align

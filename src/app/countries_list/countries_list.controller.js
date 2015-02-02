@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('ccapp')
-  .controller('CountryListCtrl', function ($scope) {
-      
-  });
+  .controller('CountryListCtrl', ['$scope', 'CountryCodes', function ($scope, CountryCodes) {
+      $scope.loading = true;
+      CountryCodes();
+  }]);
