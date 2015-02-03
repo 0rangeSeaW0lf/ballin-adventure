@@ -4,7 +4,7 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
   .constant('COUNTRY_CAPITAL_PREFIX','http://api.geonames.org/')
   .constant('COUNTRY_CAPITAL_CODES','countryInfoJSON?')
   .constant('COUNTRY_CAPITAL_SUFFIX','username=jmorenor')
-  .constant('COUNTRY_CAPITAL_SEARCH','searchJSON?')
+  .constant('COUNTRY_CAPITAL_JSON','JSON?')
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
@@ -46,17 +46,17 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
       };
     }
   ])
-  .factory('searchInfo',['countryInfoRequest', 'COUNTRY_CAPITAL_SEARCH',
-    function(countryInfoRequest, COUNTRY_CAPITAL_SEARCH){
+  .factory('searchInfo',['countryInfoRequest', 'COUNTRY_CAPITAL_JSON',
+    function(countryInfoRequest, COUNTRY_CAPITAL_JSON){
       return {
-        getInformation: function(params) {
+        getInformation: function(type, params) {
           // name=Amsterdam&featureCode=PPLC&country=NL&
           var string = "";
           var params_keys = Object.keys(params);
           for(var i = 0; i < params_keys.length; i++){
             string += params_keys[i] + "=" + params[params_keys[i]] + "&";
           }
-          return countryInfoRequest(COUNTRY_CAPITAL_SEARCH + string);
+          return countryInfoRequest(type + COUNTRY_CAPITAL_JSON + string);
         }
       };
     }

@@ -1,24 +1,49 @@
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4" ng-repeat="country in countries | filter:{countryCode: code}">
-        <h1>{{ country.countryName }}</h1>
-        <table>
-            <tr>
-                <td class="text-right"><b>Population of the Country:</b></td>
-                <td>{{ country.population | number }}</td>
-            </tr>
-            <tr>
-                <td class="text-right"><b>Area: </b></td>
-                <td>{{ country.areaInSqKm | number }} square km</td>
-            </tr>
-            <tr>
-                <td class="text-right"><b>Capital: </b></td>
-                <td>{{ country.capital }}</td>
-            </tr>
-            <tr>
-                <td class="text-right"><b>Population of Capital: </b></td>
-                <td>{{ population | number}}</td>
-            </tr>
-        </table>
+        <h1 id="countryName">{{ country.countryName }}</h1>
+        <div class="container-fluid table">
+            <div class="row">
+                <div class="col-xs-6 text-right"><b>Population of the Country:</b></div>
+                <div class="col-xs-6">{{ country.population | number }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 text-right"><b>Area:</b></div>
+                <div class="col-xs-6">{{ country.areaInSqKm | number }} square km</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 text-right"><b>Capital:</b></div>
+                <div class="col-xs-6">{{ capital.name }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 text-right"><b>Population of Capital:</b></div>
+                <div class="col-xs-6">{{ capital.population | number}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 text-right"><b>Continent:</b></div>
+                <div class="col-xs-6">{{ country.continentName }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 text-right"><b>Time Zone:</b></div>
+                <div class="col-xs-6">{{ timezone }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 text-right">
+                    <b>
+                        <ng-pluralize   count="neighbours.length"
+                        when="{'0': '',
+                        'one': '1 neighbour: ',
+                        'other': '{} neighbours: '}">
+                        </ng-pluralize>
+                    </b>
+                </div>
+                <div class="col-xs-6"><span ng-repeat="neighbour in neighbours"><a ng-href="#/countries/{{ neighbour.countryCode }}">{{ neighbour.name }}</a><span ng-show="!$last">, </span></div>
+            </div>
+            <br /><br /><br />
+            <div class="row">
+                <div class="col-xs-6"><img class="img-responsive" src="//www.geonames.org/img/country/250/{{ code }}.png"></img></div>
+                <div class="col-xs-6"><img class="img-responsive" src="//www.geonames.org/flags/x/{{ code | lowercase }}.gif" /></div>
+            </div>
+        </div>
     </div>
 </div>
 <br /><br /><br /><br />

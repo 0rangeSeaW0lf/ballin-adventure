@@ -8,9 +8,17 @@ angular.module('ccapp')
         $scope.countries = data.geonames;
         $scope.loading = false;
     });
-    searchInfo.getInformation({featureCode: "PPLC", country: $scope.code })
+    searchInfo.getInformation("search", {featureCode: "PPLC", country: $scope.code })
       .then(function(data){
-        console.log(data.geonames.length);
-        $scope.population = data.geonames[0].population;
+        $scope.capital = data.geonames[0];
+        searchInfo.getInformation("timezone", {lat: $scope.capital.lat, lng: $scope.capital.lng })
+          .then(function(data){
+            console.log(data);
+            $scope.timezone = data.timezoneId;
+        });
+      });
+    searchInfo.getInformation("neighbours", {country: $scope.code })
+      .then(function(data){
+        $scope.neighbours = data.geonames;
       });
   }]);
