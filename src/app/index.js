@@ -29,7 +29,7 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
     function($http, $q, COUNTRY_CAPITAL_PREFIX,  COUNTRY_CAPITAL_SUFFIX){
       return function(path){
         var defer = $q.defer();
-        $http.get(COUNTRY_CAPITAL_PREFIX + path + COUNTRY_CAPITAL_SUFFIX).success(
+        $http.get(COUNTRY_CAPITAL_PREFIX + path + COUNTRY_CAPITAL_SUFFIX, { cached: true }).success(
           function(data){
             defer.resolve(data);
           });

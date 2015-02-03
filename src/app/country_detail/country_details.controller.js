@@ -10,7 +10,7 @@ angular.module('ccapp')
     });
     searchInfo.getInformation({featureCode: "PPLC", country: $scope.code })
       .then(function(data){
-        console.log(data.length)
-        console.log(data.geonames[0]);
+        console.log(data.geonames.length);
+        $scope.population = data.geonames[0].population;
       });
   }]);
