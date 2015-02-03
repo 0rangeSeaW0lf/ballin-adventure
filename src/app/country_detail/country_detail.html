@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4" ng-repeat="country in countries | filter:{countryCode: code}">
+        <h1>{{ country.countryName }}</h1>
+        <table>
+            <tr>
+                <td class="text-right"><b>Population of the Country:</b></td>
+                <td>{{ country.population | number }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Area: </b></td>
+                <td>{{ country.areaInSqKm | number }} square km</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Capital: </b></td>
+                <td>{{ country.capital }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Population of Capital: </b></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br /><br /><br /><br />
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <a href="/" ui-sref="home" class="btn btn-lg btn-info">Home</a>
+        <a class="btn btn-lg btn-success" ui-sref="country-list" href="/countries">Browse Countries</a>
+    </div>
+</div>

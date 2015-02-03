@@ -4,6 +4,7 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
   .constant('COUNTRY_CAPITAL_PREFIX','http://api.geonames.org/')
   .constant('COUNTRY_CAPITAL_CODES','countryInfoJSON?')
   .constant('COUNTRY_CAPITAL_SUFFIX','username=jmorenor')
+  .constant('COUNTRY_CAPITAL_SEARCH','searchJSON?')
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
@@ -17,7 +18,7 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
         controller: 'CountryListCtrl'
       })
       .state('country-detail',{
-        url: '/countries/:country/capital',
+        url: '/countries/:country',
         templateUrl: 'app/country_detail/country_detail.html',
         controller: 'CountryDetailCtrl'
       });
@@ -28,7 +29,7 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
     function($http, $q, COUNTRY_CAPITAL_PREFIX,  COUNTRY_CAPITAL_SUFFIX){
       return function(path){
         var defer = $q.defer();
-        $http.get(COUNTRY_CAPITAL_PREFIX +path + COUNTRY_CAPITAL_SUFFIX).success(
+        $http.get(COUNTRY_CAPITAL_PREFIX + path + COUNTRY_CAPITAL_SUFFIX).success(
           function(data){
             defer.resolve(data);
           });
@@ -41,6 +42,21 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
       return {
         getInformation: function() {
           return countryInfoRequest(COUNTRY_CAPITAL_CODES);
+        }
+      };
+    }
+  ])
+  .factory('searchInfo',['countryInfoRequest', 'COUNTRY_CAPITAL_SEARCH',
+    function(countryInfoRequest, COUNTRY_CAPITAL_SEARCH){
+      return {
+        getInformation: function(params) {
+          // name=Amsterdam&featureCode=PPLC&country=NL&
+          var string = "";
+          var params_keys = Object.keys(params);
+          for(var i = 0; i < params_keys.length; i++){
+            string += params_keys[i] + "=" + params[params_keys[i]] + "&";
+          }
+          return countryInfoRequest(COUNTRY_CAPITAL_SEARCH + string);
         }
       };
     }
