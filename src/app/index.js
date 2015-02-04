@@ -60,5 +60,18 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
         }
       };
     }
-  ]);
+  ])
+  .run(function($rootScope, $state, $timeout) {
+    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+        $state.go("home");
+    });
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.isLoading = true;
+    });
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      $timeout(function() {
+        $rootScope.isLoading = false;
+      }, 1000);
+    });
+  });
 
