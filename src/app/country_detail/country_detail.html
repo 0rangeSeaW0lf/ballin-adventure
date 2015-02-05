@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4" ng-repeat="country in countries | filter:{countryCode: code}">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <h1 id="countryName">{{ country.countryName }}</h1>
         <div class="container-fluid table">
             <div class="row">
@@ -40,15 +40,15 @@
             </div>
             <br /><br /><br />
             <div class="row">
-                <div class="col-xs-6"><img class="img-responsive" src="//www.geonames.org/img/country/250/{{ code }}.png"></img></div>
-                <div class="col-xs-6"><img class="img-responsive" src="//www.geonames.org/flags/x/{{ code | lowercase }}.gif" /></div>
+                <div class="col-xs-6"><img class="img-responsive" ng-src="//www.geonames.org/img/country/250/{{code}}.png"></img></div>
+                <div class="col-xs-6"><img class="img-responsive" ng-src="//www.geonames.org/flags/x/{{code | lowercase}}.gif" /></div>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-xs-12 text-center">
-        <a href="/" ui-sref="home" class="btn btn-lg btn-info">Home</a>
-        <a class="btn btn-lg btn-success" ui-sref="country-list" href="/countries">Browse Countries</a>
+        <a ui-sref="home" class="btn btn-lg btn-info">Home</a>
+        <a class="btn btn-lg btn-success" ui-sref="country-list">Browse Countries</a>
     </div>
 </div>

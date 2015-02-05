@@ -20,16 +20,27 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
       .state('country-detail',{
         url: '/countries/:country',
         templateUrl: 'app/country_detail/country_detail.html',
-        controller: 'CountryDetailCtrl'
+        controller: 'CountryDetailCtrl',
+        resolve: {
+          country: function(countryInfo, $location, $filter, $stateParams){
+            return countryInfo.getInformation().then(function(countries){
+              var checkCountryCode = $filter('filter')(countries, {countryCode: $stateParams.country});
+              if (!checkCountryCode.length) {
+                location.path("/countries");
+              }
+              return checkCountryCode[0];
+            });
+          }
+        }
       });
 
     $urlRouterProvider.otherwise('/');
   })
   .factory('countryInfoRequest', ['$http', '$q', 'COUNTRY_CAPITAL_PREFIX', 'COUNTRY_CAPITAL_SUFFIX',
     function($http, $q, COUNTRY_CAPITAL_PREFIX,  COUNTRY_CAPITAL_SUFFIX){
-      return function(path){
+      return function(path,obj){
         var defer = $q.defer();
-        $http.get(COUNTRY_CAPITAL_PREFIX + path + COUNTRY_CAPITAL_SUFFIX, { cached: true }).success(
+        $http.get(COUNTRY_CAPITAL_PREFIX + path + COUNTRY_CAPITAL_SUFFIX, { cached: true, params: obj }).success(
           function(data){
             defer.resolve(data);
           });
@@ -41,7 +52,9 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
     function(countryInfoRequest, COUNTRY_CAPITAL_CODES){
       return {
         getInformation: function() {
-          return countryInfoRequest(COUNTRY_CAPITAL_CODES);
+          return countryInfoRequest(COUNTRY_CAPITAL_CODES).then(function(data){
+            return data.geonames;
+          });
         }
       };
     }
@@ -50,13 +63,7 @@ angular.module('ccapp', ['ngAnimate', 'ngSanitize', 'restangular', 'ui.router'])
     function(countryInfoRequest, COUNTRY_CAPITAL_JSON){
       return {
         getInformation: function(type, params) {
-          // name=Amsterdam&featureCode=PPLC&country=NL&
-          var string = "";
-          var params_keys = Object.keys(params);
-          for(var i = 0; i < params_keys.length; i++){
-            string += params_keys[i] + "=" + params[params_keys[i]] + "&";
-          }
-          return countryInfoRequest(type + COUNTRY_CAPITAL_JSON + string);
+          return countryInfoRequest(type + COUNTRY_CAPITAL_JSON, params);
         }
       };
     }
