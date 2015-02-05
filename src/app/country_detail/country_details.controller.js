@@ -13,7 +13,6 @@ angular.module('ccapp')
         $scope.capital = data.geonames[0];
         searchInfo.getInformation("timezone", {lat: $scope.capital.lat, lng: $scope.capital.lng })
           .then(function(data){
-            console.log(data);
             $scope.timezone = data.timezoneId;
         });
       });
